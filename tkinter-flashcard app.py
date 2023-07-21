@@ -5,6 +5,61 @@ root = Tk()
 root.title("Flashcard App!")
 root.geometry("400x400")
 root.iconbitmap('iambob.ico')
+
+#Create the subtract function
+def subtract():
+    hide_menu_frame()
+    subtract_frame.pack(fill="both", expand=1)
+
+    #Create 2 random numbers
+    global num_1
+    global num_2
+    num_1 = IntVar()
+    num_2 = IntVar()
+    num_1.set(randint(0,10))
+    num_2.set(randint(0,10))
+
+    #Create function to determine subtract answer correct
+    def subtract_correct(num1, num2):
+        # calculate the actual answer
+        correct = num1 - num2
+
+        #correct and incorrect message
+        output_answer_correct = StringVar()
+        output_answer_incorrect = StringVar()
+        output_answer_correct.set("Correct " + str(num1) + " + " + str(num2) + " = " + str(correct))
+        output_answer_incorrect.set("Incorrect " + str(num1) + " + " + str(num2) + " = " + str(correct) + ", Not " + subtract_answer.get())
+
+        if int(subtract_answer.get()) == correct:
+            subtract_correct_label.config(text=output_answer_correct.get())
+        else:
+            subtract_correct_label.config(text=output_answer_incorrect.get())
+    # Clear the answer box
+        subtract_answer.delete(0, 'end')
+
+    # generate 2 new random numbers
+        num_1.set(randint(0, 10))
+        num_2.set(randint(0, 10))
+        subtract_flash.config(text=str(num_1.get()) + " + " + str(num_2.get()), font=("Arial", 32))
+    #put our random number onto the screen
+    subtract_flash = Label(subtract_frame, text=str(num_1.get()) + " + " + str(num_2.get()), font=("Arial", 32))
+    subtract_flash.pack(pady=10)
+
+    #Answer Box
+    subtract_answer = Entry(subtract_frame)
+    subtract_answer.pack(pady=5)
+
+    #Answer Button
+    subtract_button = Button(subtract_frame, text="Answer", command=lambda: subtract_correct(num_1.get(), num_2.get()))
+    subtract_button.pack(pady=5)
+
+    #Correct or Incorrect Message
+    global subtract_correct_label
+    subtract_correct_label = Label(subtract_frame, text="")
+    subtract_correct_label.pack(pady=5)
+
+
+
 #Create the addition function
 def add():
     hide_menu_frame()
@@ -26,14 +81,20 @@ def add():
         #correct and incorrect message
         output_answer_correct = StringVar()
         output_answer_incorrect = StringVar()
-        output_answer_correct.set("Correct")
-        output_answer_incorrect.set("Incorrect")
+        output_answer_correct.set("Correct " + str(num1) + " + " + str(num2) + " = " + str(correct))
+        output_answer_incorrect.set("Incorrect " + str(num1) + " + " + str(num2) + " = " + str(correct) + ", Not " + add_answer.get())
 
         if int(add_answer.get()) == correct:
             add_correct_label.config(text=output_answer_correct.get())
         else:
             add_correct_label.config(text=output_answer_incorrect.get())
+    # Clear the answer box
+        add_answer.delete(0, 'end')
 
+    # generate 2 new random numbers
+        num_1.set(randint(0, 10))
+        num_2.set(randint(0, 10))
+        add_flash.config(text=str(num_1.get()) + " + " + str(num_2.get()), font=("Arial", 32))
     #put our random number onto the screen
     add_flash = Label(add_frame, text=str(num_1.get()) + " + " + str(num_2.get()), font=("Arial", 32))
     add_flash.pack(pady=10)
@@ -48,7 +109,7 @@ def add():
 
     #Correct or Incorrect Message
     global add_correct_label
-    add_correct_label = Label(add_frame, text="Enter your Answer Above")
+    add_correct_label = Label(add_frame, text="")
     add_correct_label.pack(pady=5)
 
 
